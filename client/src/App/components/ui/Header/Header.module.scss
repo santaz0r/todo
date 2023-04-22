@@ -1,0 +1,64 @@
+@import '../../../../styles/vars.scss';
+
+.header {
+  padding: 0 10px;
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+  &__page {
+    text-transform: capitalize;
+    font-weight: bold;
+    font-size: 20px;
+  }
+}
+
+.navigation {
+  display: flex;
+  justify-content: center;
+  list-style-type: none;
+
+  padding: 0;
+  &_link {
+    padding: 10px;
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s linear;
+    &:hover {
+      color: aquamarine;
+    }
+  }
+  &__buttons {
+    display: flex;
+    gap: 15px;
+
+    .navigation__btn {
+      display: block;
+      width: 120px;
+      height: 35px;
+      border: none;
+      border-radius: 0.25rem;
+      background-color: $btn-color;
+      color: #fff;
+      font-family: var(--font-family);
+      text-transform: none;
+      font-weight: 400;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.2s;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+  }
+}
+
+.active_link {
+  color: aquamarine;
+  text-decoration: underline;
+}
