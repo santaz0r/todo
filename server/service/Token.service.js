@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken");
 const tokenModel = require("../models/Token");
+const Token = require("../models/Token");
+
 class TokenService {
   generate(payload) {
     const accessToken = jwt.sign(payload, process.env.JWT_ACCESS, {
@@ -22,6 +24,35 @@ class TokenService {
     }
     const token = await tokenModel.create({ user: userId, refreshToken });
     return token;
+  }
+
+  async removeToken(refreshToken) {
+    const tokenData = await Token.deleteOne({ refreshToken });
+    return tokenData;
+  }
+
+  validateAccessToken(token) {
+    try {
+      return jwt.verify(token, process.env.JWT_ACCESS);
+    } catch (error) {
+      return null;
+    }
+  }
+
+  validateRefreshToken(token) {
+    try {
+      return jwt.verify(token, process.env.JWT_REFRESH);
+    } catch (error) {
+      return null;
+    }
+  }
+
+  async findToken(refreshToken) {
+    try {
+      return await Token.findOne({ refreshToken });
+    } catch (error) {
+      return null;
+    }
   }
 }
 
