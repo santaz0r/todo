@@ -10,7 +10,7 @@ class UserController {
         next(ApiErrors.badRequest("kekw", validateErrors.array()));
       }
       const { email, password } = req.body;
-      const data = await UserService.signup(email, password);
+      const data = await UserService.signup({ email, password, ...req.body });
       res.cookie("refreshToken", data.refreshToken, {
         maxAge: 30 * 24 * 3600 * 1000,
         httpOnly: true,

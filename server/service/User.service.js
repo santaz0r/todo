@@ -6,14 +6,18 @@ const ApiErrors = require("../exceptions/Errors");
 const User = require("../models/User");
 
 class Userservice {
-  async signup(email, password) {
+  async signup({ email, password, ...rest }) {
     const existingUser = await UserModel.findOne({ email });
     if (existingUser) {
       throw ApiErrors.badRequest(`email ${email} already exist`);
     }
     const hashedPassword = await bcrypt.hash(password, 12);
-    const newUser = await UserModel.create({ email, password: hashedPassword });
-
+    const newUser = await UserModel.create({
+      email,
+      password: hashedPassword,
+      ...rest,
+    });
+    console.log(newUser);
     const userDto = new UserDto(newUser);
     const tokens = TokenService.generate({ ...userDto });
     await TokenService.saveToken(userDto.id, tokens.refreshToken);
