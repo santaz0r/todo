@@ -1,7 +1,12 @@
-const enum Priority {
+const enum Status {
   fulfillment = 'To fulfillment',
   progress = 'In progress',
   done = 'Done',
 }
 
-export { Priority };
+const enum Priority {
+  low = 'low',
+  middle = 'middle',
+  high = 'high',
+}
+export { Status, Priority };

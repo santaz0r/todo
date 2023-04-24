@@ -3,7 +3,7 @@ import { FieldErrors, FieldValues, UseFormRegister, Path } from 'react-hook-form
 type TProps<TFormValues extends FieldValues> = {
   label: string;
   defaultOption: string;
-  options: string[];
+  options: { label: string; value: string }[];
   field: Path<TFormValues>;
   error: FieldErrors<TFormValues>;
   register: UseFormRegister<TFormValues>;
@@ -39,8 +39,8 @@ function SelectField<TFormValues extends Record<string, unknown>>({
               </option>
               {options &&
                 options.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
+                  <option key={option.value} value={option.value}>
+                    {option.label}
                   </option>
                 ))}
             </select>

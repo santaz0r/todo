@@ -6,6 +6,7 @@ import axios from 'axios';
 import { TAuthResponse } from '../types/AuthResponse';
 import { TAuthProps } from '../types/Form';
 import { TFullDataUser, TUser } from '../types/User.type';
+import userService from '../services/user.service';
 
 type TUserState = {
   entities: TFullDataUser[];
@@ -13,6 +14,7 @@ type TUserState = {
   error: string;
   user: TUser | null;
   isLoggedIn: boolean;
+  dataLoad: boolean;
 };
 
 const initialState: TUserState = {
@@ -21,11 +23,19 @@ const initialState: TUserState = {
   error: '',
   user: null,
   isLoggedIn: false,
+  dataLoad: false,
 };
 const userSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {
+    usersRequest: (state) => {
+      state.dataLoad = true;
+    },
+    usersRequestSuccess: (state, action) => {
+      state.entities = action.payload;
+      state.dataLoad = false;
+    },
     authRequestSuccess: (state, action) => {
       state.user = action.payload;
       state.isLoggedIn = true;
@@ -37,6 +47,9 @@ const userSlice = createSlice({
     dataLoad: (state, action) => {
       state.isLoading = action.payload;
     },
+    clearData: (state) => {
+      state.entities = [];
+    },
     authRequested: (state) => {
       state.error = '';
     },
@@ -47,7 +60,26 @@ const userSlice = createSlice({
 });
 
 const { reducer: userReducer, actions } = userSlice;
-const { authRequestSuccess, userLoggedOut, dataLoad, authRequested, authRequestFailed } = actions;
+const {
+  authRequestSuccess,
+  userLoggedOut,
+  dataLoad,
+  authRequested,
+  authRequestFailed,
+  usersRequest,
+  usersRequestSuccess,
+  clearData,
+} = actions;
+
+export const loadUsersList = () => async (dispatch: AppDispatch) => {
+  dispatch(usersRequest());
+  try {
+    const data = await userService.getUsers();
+    dispatch(usersRequestSuccess(data));
+  } catch (e) {
+    console.log(e);
+  }
+};
 
 export const login =
   ({ payload, setActive }: TAuthProps) =>
@@ -124,8 +156,17 @@ export const checkAuth = () => async (dispatch: AppDispatch) => {
 
 export const getIsLogin = () => (state: RootState) => state.user.isLoggedIn;
 export const getUserLoadingStatus = () => (state: RootState) => state.user.isLoading;
+export const getUsersListStatus = () => (state: RootState) => state.user.dataLoad;
 
 export const getAuthErrors = () => (state: RootState) => state.user.error;
 export const getCurrentUserData = () => (state: RootState) => state.user.user;
+export const getUsersList = () => (state: RootState) => state.user.entities;
+export const clearUsersData = () => (dispatch: AppDispatch) => dispatch(clearData());
+export const getUserById = (id: string) => (state: RootState) => {
+  if (state.user.entities) {
+    return state.user.entities.find((u) => u._id === id);
+  }
+  return null;
+};
 
 export default userReducer;

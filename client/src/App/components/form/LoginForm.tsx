@@ -3,7 +3,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import TextField from './inputs/TextField';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { getAuthErrors, login } from '../../store/user';
+import { getAuthErrors, loadUsersList, login } from '../../store/user';
 import { loadTodosList } from '../../store/todos';
 
 type TProps = {
@@ -28,7 +28,6 @@ function LoginForm({ setCurrentModal, setActive }: TProps) {
 
   const onSubmit = handleSubmit((payload) => {
     dispatch(login({ payload, setActive }));
-    dispatch(loadTodosList());
   });
 
   return (

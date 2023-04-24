@@ -5,7 +5,7 @@ import { getAuthErrors, getCurrentUserData, signUp } from '../../store/user';
 import { createTodo } from '../../store/todos';
 import { TUser } from '../../types/User.type';
 import SelectField from './inputs/SelectField';
-import { Priority } from '../../types/Enums';
+import { Priority, Status } from '../../types/Enums';
 
 type TProps = {
   setActive: React.Dispatch<React.SetStateAction<boolean>>;
@@ -18,7 +18,11 @@ export type TodoFormFields = {
   priority: string;
 };
 
-const selectOptions = ['high', 'middle', 'low'];
+const selectOptions = [
+  { label: Priority.high, value: Priority.high },
+  { label: Priority.middle, value: Priority.middle },
+  { label: Priority.low, value: Priority.low },
+];
 
 function CreateTodoForm({ setActive }: TProps) {
   const {
@@ -39,7 +43,7 @@ function CreateTodoForm({ setActive }: TProps) {
       created: today,
       author: currentUser!.id,
       responsible: currentUser!.id,
-      status: Priority.fulfillment,
+      status: Status.fulfillment,
     };
 
     dispatch(createTodo(newPayload, setActive));

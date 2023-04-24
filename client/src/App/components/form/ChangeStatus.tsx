@@ -6,7 +6,7 @@ import { createTodo, updateTodo } from '../../store/todos';
 import { TUser } from '../../types/User.type';
 import SelectField from './inputs/SelectField';
 import { TTodo } from '../../types/Todos';
-import { Priority } from '../../types/Enums';
+import { Status } from '../../types/Enums';
 
 type TProps = {
   data: TTodo;
@@ -17,7 +17,11 @@ export type TodoFormFields = {
   status: string;
 };
 
-const selectOptionsStatus = [Priority.fulfillment, Priority.progress, Priority.done];
+const selectOptionsStatus = [
+  { label: Status.fulfillment, value: Status.fulfillment },
+  { label: Status.progress, value: Status.progress },
+  { label: Status.done, value: Status.done },
+];
 
 function ChangeStatus({ data, setActive }: TProps) {
   const {

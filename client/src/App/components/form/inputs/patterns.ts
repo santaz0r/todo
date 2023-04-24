@@ -27,6 +27,14 @@ const Regexp: { [index: string]: { pattern: RegExp; message: string } } = {
     pattern: /./g,
     message: "Don't be empty",
   },
+  lastName: {
+    pattern: /./g,
+    message: "Don't be empty",
+  },
+  manager: {
+    pattern: /./g,
+    message: "Don't be empty",
+  },
 };
 
 export default Regexp;

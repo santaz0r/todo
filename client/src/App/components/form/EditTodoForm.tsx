@@ -20,8 +20,11 @@ export type TodoFormFields = {
   priority: string;
 };
 
-const selectOptions = ['high', 'middle', 'low'];
-const selectOptionsStatus = [Priority.fulfillment, Priority.progress, Priority.done];
+const selectOptions = [
+  { label: Priority.high, value: Priority.high },
+  { label: Priority.middle, value: Priority.middle },
+  { label: Priority.low, value: Priority.low },
+];
 
 function EditTodoForm({ data, setActive }: TProps) {
   const {
