@@ -21,6 +21,16 @@ class TodoController {
       next(e);
     }
   }
+
+  async updateTodo(req, res, next) {
+    try {
+      const todoId = req.params.todoId;
+      const data = await TodoService.updateTodo(todoId, { ...req.body });
+      return res.json(data);
+    } catch (e) {
+      next(e);
+    }
+  }
 }
 
 module.exports = new TodoController();

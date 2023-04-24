@@ -5,10 +5,10 @@ import authService from '../services/auth.service';
 import axios from 'axios';
 import { TAuthResponse } from '../types/AuthResponse';
 import { TAuthProps } from '../types/Form';
-import { TUser } from '../types/User.type';
+import { TFullDataUser, TUser } from '../types/User.type';
 
 type TUserState = {
-  entities: null | [];
+  entities: TFullDataUser[];
   isLoading: boolean;
   error: string;
   user: TUser | null;
@@ -16,7 +16,7 @@ type TUserState = {
 };
 
 const initialState: TUserState = {
-  entities: null,
+  entities: [],
   isLoading: false,
   error: '',
   user: null,

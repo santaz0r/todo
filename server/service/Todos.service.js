@@ -11,6 +11,11 @@ class TodoService {
 
     return { newTodo };
   }
+
+  async updateTodo(link, { ...rest }) {
+    const updatedTodo = await Todo.findByIdAndUpdate(link, rest, { new: true });
+    return updatedTodo;
+  }
 }
 
 module.exports = new TodoService();

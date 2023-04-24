@@ -11,6 +11,10 @@ const todoService = {
     const { data } = await httpService.post(todoEndPoint, payload);
     return data;
   },
+  updateTodo: async (payload: { [x: string]: string }) => {
+    const { data } = await httpService.patch(`${todoEndPoint}/${payload._id}`, payload);
+    return data;
+  },
 };
 
 export default todoService;

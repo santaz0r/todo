@@ -21,5 +21,6 @@ router.get("/users", userController.getUsers);
 // todos
 router.get("/todos", TodosController.getTodos);
 router.post("/todos", TodosController.createTOdo);
+router.patch("/todos/:todoId", TodosController.updateTodo);
 
 module.exports = router;

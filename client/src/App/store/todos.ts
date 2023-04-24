@@ -50,6 +50,9 @@ const todoSlice = createSlice({
     todoClear: (state) => {
       state.entities = [];
     },
+    todoUpdateSuccessed: (state, action) => {
+      state.entities[state.entities.findIndex((doc) => doc._id === action.payload._id)] = action.payload;
+    },
   },
 });
 
@@ -62,6 +65,7 @@ const {
   todoCreated,
   createTodoRequested,
   todoCreateFailed,
+  todoUpdateSuccessed,
 } = actions;
 
 export const loadTodosList = () => async (dispatch: AppDispatch) => {
@@ -90,6 +94,15 @@ export const createTodo =
         dispatch(todoCreateFailed(e.message));
       }
     }
+  };
+
+export const updateTodo =
+  (payload: TCreateProps['payload'], setActive: TCreateProps['setActive']) => async (dispatch: AppDispatch) => {
+    try {
+      const data = await todoService.updateTodo(payload);
+      dispatch(todoUpdateSuccessed(data));
+      setActive(false);
+    } catch (e) {}
   };
 
 export const clearData = () => (dispatch: AppDispatch) => dispatch(todoClear());

@@ -9,6 +9,7 @@ type TProps<TFormValues extends FieldValues> = {
   error: FieldErrors<TFormValues>;
   register: UseFormRegister<TFormValues>;
   formType?: 'login' | 'reg';
+  value?: string;
 };
 
 function TextField<TFormValues extends Record<string, unknown>>({
@@ -18,12 +19,10 @@ function TextField<TFormValues extends Record<string, unknown>>({
   type,
   field,
   formType,
+  value,
 }: TProps<TFormValues>): JSX.Element {
   const [showPassword, setShowPassword] = useState(false);
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = now.getMonth().toString().padStart(2, '0');
-  const day = now.getDate().toString().padStart(2, '0');
+  const today = new Date().toISOString().split('T')[0];
 
   const toggleShowPassword = () => {
     setShowPassword((prevState) => !prevState);
@@ -33,9 +32,10 @@ function TextField<TFormValues extends Record<string, unknown>>({
       <label htmlFor={field}>{label}</label>
       <div>
         <input
+          defaultValue={value}
           type={showPassword ? 'text' : type}
           id={field}
-          max={`${year}-${month}-${day}`}
+          min={today}
           {...(formType !== 'login'
             ? {
                 ...register(field, {

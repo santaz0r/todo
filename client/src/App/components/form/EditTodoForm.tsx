@@ -2,12 +2,14 @@ import { useForm } from 'react-hook-form';
 import TextField from './inputs/TextField';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { getAuthErrors, getCurrentUserData, signUp } from '../../store/user';
-import { createTodo } from '../../store/todos';
+import { createTodo, updateTodo } from '../../store/todos';
 import { TUser } from '../../types/User.type';
 import SelectField from './inputs/SelectField';
+import { TTodo } from '../../types/Todos';
 import { Priority } from '../../types/Enums';
 
 type TProps = {
+  data: TTodo;
   setActive: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -19,40 +21,53 @@ export type TodoFormFields = {
 };
 
 const selectOptions = ['high', 'middle', 'low'];
+const selectOptionsStatus = [Priority.fulfillment, Priority.progress, Priority.done];
 
-function CreateTodoForm({ setActive }: TProps) {
+function EditTodoForm({ data, setActive }: TProps) {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<TodoFormFields>();
 
-  const currentUser = useAppSelector(getCurrentUserData());
-
   const dispatch = useAppDispatch();
 
   const onSubmit = handleSubmit((payload) => {
-    const today = new Date().toISOString().split('T')[0];
-
     const newPayload = {
       ...payload,
-      created: today,
-      author: currentUser!.id,
-      responsible: currentUser!.id,
-      status: Priority.fulfillment,
+      _id: data._id,
+      created: data.created,
+      author: data.author,
+      responsible: data.responsible,
+      status: data.status,
     };
+    console.log(newPayload);
 
-    dispatch(createTodo(newPayload, setActive));
+    dispatch(updateTodo(newPayload, setActive));
   });
   return (
     <>
       <h2>Create new todo</h2>
       <form onSubmit={onSubmit}>
-        <TextField label="Title" field="title" register={register} error={errors} />
-        <TextField label="Description" field="description" register={register} error={errors} />
-        <TextField label="Dead line" field="deadline" type="date" register={register} error={errors} />
+        <TextField label="Title" field="title" register={register} value={data.title} error={errors} />
+        <TextField
+          label="Description"
+          field="description"
+          value={data.description}
+          register={register}
+          error={errors}
+        />
+        <TextField
+          label="Dead line"
+          field="deadline"
+          type="date"
+          value={data.deadline}
+          register={register}
+          error={errors}
+        />
         <SelectField
           options={selectOptions}
+          defOpt={data.priority}
           defaultOption="choose..."
           disabledOption={false}
           error={errors}
@@ -60,10 +75,10 @@ function CreateTodoForm({ setActive }: TProps) {
           field="priority"
           register={register}
         />
-        <button type="submit">Create</button>
+        <button type="submit">Edit</button>
       </form>
     </>
   );
 }
 
-export default CreateTodoForm;
+export default EditTodoForm;
