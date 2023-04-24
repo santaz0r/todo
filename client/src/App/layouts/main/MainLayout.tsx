@@ -7,18 +7,20 @@ import Header from '../../components/ui/Header/Header';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { checkAuth, getUserLoadingStatus } from '../../store/user';
+import { loadTodosList } from '../../store/todos';
 
 function MainLayout() {
-  const isLoading = useAppSelector(getUserLoadingStatus());
+  const isLoadingUser = useAppSelector(getUserLoadingStatus());
   const dispatch = useAppDispatch();
   useEffect(() => {
     if (localStorage.getItem('token')) {
       dispatch(checkAuth());
+      dispatch(loadTodosList());
     }
   }, []);
 
-  if (isLoading) {
-    return <h2>Loading...</h2>;
+  if (isLoadingUser) {
+    return <h2>Loading user...</h2>;
   }
   return (
     <>

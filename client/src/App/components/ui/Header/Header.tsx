@@ -7,6 +7,7 @@ import LoginForm from '../../form/LoginForm';
 import RegisterForm from '../../form/RegistrationForm';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import { getIsLogin, logout } from '../../../store/user';
+import { clearData } from '../../../store/todos';
 
 function Header() {
   const isLoggin = useAppSelector(getIsLogin());
@@ -21,6 +22,7 @@ function Header() {
 
   const handleLogOut = () => {
     dispatch(logout());
+    dispatch(clearData());
   };
 
   const setActiveLink = ({ isActive }: { isActive: boolean }) =>

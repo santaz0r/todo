@@ -1,6 +1,4 @@
-import { TAuthResponse } from '../types/AuthResponse';
 import httpService from './http.service';
-import { AxiosResponse } from 'axios';
 
 const userService = {
   getUsers: async () => {
