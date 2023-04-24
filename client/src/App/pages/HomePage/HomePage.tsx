@@ -29,15 +29,15 @@ function HomePage() {
         <p>TODO LOADING</p>
       ) : (
         <div className="todos__wrapper" style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-          <div className="todo__fulfillment" style={{ minWidth: '33%' }}>
+          <div className="todo__fulfillment" style={{ minWidth: '27%' }}>
             <h3>To fulfillment</h3>
             <TodoList todos={todoFulfillment} />
           </div>
-          <div className="todo__in-progress" style={{ minWidth: '33%' }}>
+          <div className="todo__in-progress" style={{ minWidth: '27%' }}>
             <h3>In progress</h3>
             <TodoList todos={todoInProgress} />
           </div>
-          <div className="todo__done" style={{ minWidth: '33%' }}>
+          <div className="todo__done" style={{ minWidth: '27%' }}>
             <h3>Done</h3>
             <TodoList todos={todoDone} />
           </div>

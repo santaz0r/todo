@@ -44,7 +44,7 @@ function LoginForm({ setCurrentModal, setActive }: TProps) {
           formType="login"
         />
         <button type="submit">submit</button>
-        {authError && <p>{authError}</p>}
+        {authError && <p className="error">{authError}</p>}
         <button type="button" onClick={() => setCurrentModal('register')} className={'styles.changeModal__btn'}>
           Switch to register
         </button>

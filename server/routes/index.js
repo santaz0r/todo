@@ -10,6 +10,8 @@ router.post(
   body("email").isEmail(),
   body("password").isLength({ min: 4 }),
   body("name").notEmpty(),
+  body("lastName").notEmpty(),
+  body("manager").notEmpty(),
   userController.signup
 );
 router.post("/login", userController.login);

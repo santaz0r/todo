@@ -1,6 +1,6 @@
 const Regexp: { [index: string]: { pattern: RegExp; message: string } } = {
   email: {
-    pattern: /^\S+@\S+\.\S\S+$/g,
+    pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
     message: "It's must be email",
   },
   birthday: {

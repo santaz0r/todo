@@ -161,12 +161,25 @@ export const getUsersListStatus = () => (state: RootState) => state.user.dataLoa
 export const getAuthErrors = () => (state: RootState) => state.user.error;
 export const getCurrentUserData = () => (state: RootState) => state.user.user;
 export const getUsersList = () => (state: RootState) => state.user.entities;
+export const getManagersList = () => (state: RootState) => {
+  if (state.user.entities) {
+    return state.user.entities.filter((u) => u.role === 'manager');
+  }
+  return [];
+};
 export const clearUsersData = () => (dispatch: AppDispatch) => dispatch(clearData());
 export const getUserById = (id: string) => (state: RootState) => {
   if (state.user.entities) {
     return state.user.entities.find((u) => u._id === id);
   }
   return null;
+};
+
+export const getUsersGroup = (managerId: string) => (state: RootState) => {
+  if (state.user.entities) {
+    return state.user.entities.filter((u) => u.manager === managerId);
+  }
+  return [];
 };
 
 export default userReducer;

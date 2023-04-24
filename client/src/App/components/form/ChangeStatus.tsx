@@ -35,7 +35,6 @@ function ChangeStatus({ data, setActive }: TProps) {
   const onSubmit = handleSubmit((payload) => {
     const newPayload = {
       ...data,
-
       status: payload.status,
     };
     console.log(newPayload);

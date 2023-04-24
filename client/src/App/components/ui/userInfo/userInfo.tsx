@@ -10,7 +10,7 @@ function UserInfo({ text, userId }: TProps) {
   const user = useAppSelector(getUserById(userId));
   return (
     <div>
-      {text}: {user?.name}
+      {text}: {user?.name} {user?.lastName}
     </div>
   );
 }

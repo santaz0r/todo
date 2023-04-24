@@ -5,7 +5,7 @@ import EditTodoForm from '../../form/EditTodoForm';
 import ChangeStatus from '../../form/ChangeStatus';
 import UserInfo from '../userInfo/userInfo';
 import { useAppSelector } from '../../../../hooks';
-import { getCurrentUserData } from '../../../store/user';
+import { getCurrentUserData, getUserById, getUsersList } from '../../../store/user';
 
 type TProps = {
   todo: TTodo;
@@ -17,13 +17,21 @@ function Todo({ todo }: TProps) {
 
   const currentUser = useAppSelector(getCurrentUserData());
 
+  const users = useAppSelector(getUsersList());
+
   const handleClick = (type: 'descr' | 'status') => {
     setCurrentModal(type);
     setIsModalActive(true);
   };
 
-  const isDisabled = (id: string) => {
-    return currentUser?.id !== id;
+  const isDisabledStatus = (id: string) => {
+    const todoUserData = users.filter((user) => user._id === id);
+    return todoUserData[0].manager === currentUser?.id || currentUser?.id === id;
+  };
+
+  const isDisabledDescr = (id: string, authorId: string) => {
+    const todoUserData = users.filter((user) => user._id === id);
+    return todoUserData[0].manager === currentUser?.id || (currentUser?.id === id && authorId === currentUser?.id);
   };
 
   return (
@@ -37,10 +45,14 @@ function Todo({ todo }: TProps) {
       <UserInfo text="Autor" userId={todo.author} />
       <UserInfo text="Responsible" userId={todo.responsible} />
       <div style={{ display: 'flex' }}>
-        <button type="button" disabled={isDisabled(todo.responsible)} onClick={() => handleClick('descr')}>
+        <button
+          type="button"
+          disabled={!isDisabledDescr(todo.responsible, todo.author)}
+          onClick={() => handleClick('descr')}
+        >
           Change description
         </button>
-        <button type="button" disabled={isDisabled(todo.responsible)} onClick={() => handleClick('status')}>
+        <button type="button" disabled={!isDisabledStatus(todo.responsible)} onClick={() => handleClick('status')}>
           Change status
         </button>
       </div>

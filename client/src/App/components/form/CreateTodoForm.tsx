@@ -1,11 +1,12 @@
 import { useForm } from 'react-hook-form';
 import TextField from './inputs/TextField';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { getAuthErrors, getCurrentUserData, signUp } from '../../store/user';
+import { getAuthErrors, getCurrentUserData, getUsersGroup, signUp } from '../../store/user';
 import { createTodo } from '../../store/todos';
 import { TUser } from '../../types/User.type';
 import SelectField from './inputs/SelectField';
 import { Priority, Status } from '../../types/Enums';
+import transformData from '../../utils/dataTransform';
 
 type TProps = {
   setActive: React.Dispatch<React.SetStateAction<boolean>>;
@@ -16,6 +17,7 @@ export type TodoFormFields = {
   description: string;
   deadline: string;
   priority: string;
+  responsible: string;
 };
 
 const selectOptions = [
@@ -33,6 +35,9 @@ function CreateTodoForm({ setActive }: TProps) {
 
   const currentUser = useAppSelector(getCurrentUserData());
 
+  const myGroup = useAppSelector(getUsersGroup(currentUser!.id));
+  console.log(myGroup);
+
   const dispatch = useAppDispatch();
 
   const onSubmit = handleSubmit((payload) => {
@@ -42,7 +47,7 @@ function CreateTodoForm({ setActive }: TProps) {
       ...payload,
       created: today,
       author: currentUser!.id,
-      responsible: currentUser!.id,
+      responsible: payload.responsible,
       status: Status.fulfillment,
     };
 
@@ -64,6 +69,17 @@ function CreateTodoForm({ setActive }: TProps) {
           field="priority"
           register={register}
         />
+        {currentUser!.role === 'manager' && (
+          <SelectField
+            options={transformData(myGroup)}
+            defaultOption="choose..."
+            disabledOption={false}
+            error={errors}
+            label="Choose a responsible"
+            field="responsible"
+            register={register}
+          />
+        )}
         <button type="submit">Create</button>
       </form>
     </>

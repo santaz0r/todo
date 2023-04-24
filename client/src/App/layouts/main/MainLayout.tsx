@@ -24,6 +24,7 @@ function MainLayout() {
   useEffect(() => {
     if (isLoggedIn) {
       dispatch(loadTodosList());
+      dispatch(loadUsersList());
     }
   }, [isLoggedIn]);
 

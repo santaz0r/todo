@@ -6,6 +6,7 @@ const UserSchema = new Schema({
   name: { type: String, required: true },
   lastName: { type: String, required: true },
   manager: { type: Schema.Types.ObjectId, ref: "User" },
+  role: { type: String, required: true },
 });
 
 module.exports = model("User", UserSchema);

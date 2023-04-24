@@ -1,9 +1,10 @@
 import { useForm } from 'react-hook-form';
 import TextField from './inputs/TextField';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { getAuthErrors, getUsersList, loadUsersList, signUp } from '../../store/user';
+import { getAuthErrors, getManagersList, getUsersList, loadUsersList, signUp } from '../../store/user';
 import { loadTodosList } from '../../store/todos';
 import SelectField from './inputs/SelectField';
+import transformData from '../../utils/dataTransform';
 
 type TProps = {
   setCurrentModal: React.Dispatch<React.SetStateAction<'register' | 'login'>>;
@@ -28,14 +29,14 @@ function RegisterForm({ setCurrentModal, setActive }: TProps) {
   const dispatch = useAppDispatch();
   const authError = useAppSelector(getAuthErrors());
 
-  const users = useAppSelector(getUsersList());
-
-  const transformData = (data: typeof users) => {
-    return data.map((item) => ({ label: item.name, value: item._id }));
-  };
+  const managers = useAppSelector(getManagersList());
 
   const onSubmit = handleSubmit((payload) => {
-    dispatch(signUp({ payload, setActive }));
+    const newPayload = {
+      ...payload,
+      role: 'user',
+    };
+    dispatch(signUp({ payload: newPayload, setActive }));
   });
   return (
     <>
@@ -46,7 +47,7 @@ function RegisterForm({ setCurrentModal, setActive }: TProps) {
         <TextField label="Name" field="name" register={register} error={errors} />
         <TextField label="Last name" field="lastName" register={register} error={errors} />
         <SelectField
-          options={transformData(users)}
+          options={transformData(managers)}
           defaultOption="choose..."
           disabledOption={false}
           error={errors}
@@ -55,7 +56,7 @@ function RegisterForm({ setCurrentModal, setActive }: TProps) {
           register={register}
         />
         <button type="submit">submit</button>
-        {authError && <p>{authError}</p>}
+        {authError && <p className="error">{authError}</p>}
         <button type="button" onClick={() => setCurrentModal('login')} className={'styles.changeModal__btn'}>
           Switch to login
         </button>
