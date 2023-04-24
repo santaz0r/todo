@@ -1,4 +1,3 @@
-const TodoDto = require("../dtos/todo.dto");
 const Todo = require("../models/Todo");
 
 class TodoService {
@@ -9,8 +8,8 @@ class TodoService {
 
   async createTodo({ ...rest }) {
     const newTodo = await Todo.create({ ...rest });
-    const todoDto = new TodoDto(newTodo);
-    return { todoDto };
+
+    return { newTodo };
   }
 }
 

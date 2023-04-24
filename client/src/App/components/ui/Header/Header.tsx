@@ -6,13 +6,14 @@ import Modal from '../../modal/Modal';
 import LoginForm from '../../form/LoginForm';
 import RegisterForm from '../../form/RegistrationForm';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
-import { getIsLogin, logout } from '../../../store/user';
+import { getCurrentUserData, getIsLogin, logout } from '../../../store/user';
 import { clearData } from '../../../store/todos';
 
 function Header() {
   const isLoggin = useAppSelector(getIsLogin());
+  const currentUser = useAppSelector(getCurrentUserData());
   const dispatch = useAppDispatch();
-  console.log(isLoggin);
+
   const [isModalActive, setIsModalActive] = useState(false);
   const [currentModal, setCurrentModal] = useState<'register' | 'login'>('register');
   const handleButton = (btn: 'register' | 'login') => {
@@ -46,7 +47,7 @@ function Header() {
         </nav>
         {isLoggin ? (
           <div>
-            ya vowel
+            {currentUser?.email}
             <button onClick={handleLogOut}>logOut</button>
           </div>
         ) : (

@@ -8,12 +8,19 @@ type TTodoState = {
   entities: TTodo[];
   isLoading: boolean;
   dataError: string;
+  createError: string;
+};
+
+type TCreateProps = {
+  setActive: React.Dispatch<React.SetStateAction<boolean>>;
+  payload: { [x: string]: string };
 };
 
 const initialState: TTodoState = {
   entities: [],
   isLoading: true,
   dataError: '',
+  createError: '',
 };
 
 const todoSlice = createSlice({
@@ -31,6 +38,15 @@ const todoSlice = createSlice({
       state.dataError = action.payload;
       state.isLoading = false;
     },
+    todoCreated: (state, action) => {
+      state.entities.push(action.payload);
+    },
+    createTodoRequested: (state) => {
+      state.createError = '';
+    },
+    todoCreateFailed: (state, action) => {
+      state.createError = action.payload;
+    },
     todoClear: (state) => {
       state.entities = [];
     },
@@ -38,23 +54,45 @@ const todoSlice = createSlice({
 });
 
 const { reducer: todoReducer, actions } = todoSlice;
-const { todoRequested, todoReceived, todoRequestFailed, todoClear } = actions;
+const {
+  todoRequested,
+  todoReceived,
+  todoRequestFailed,
+  todoClear,
+  todoCreated,
+  createTodoRequested,
+  todoCreateFailed,
+} = actions;
 
 export const loadTodosList = () => async (dispatch: AppDispatch) => {
   dispatch(todoRequested());
   try {
     const data = await todoService.getTodos();
     dispatch(todoReceived(data));
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      dispatch(todoRequestFailed(error.message));
+  } catch (e) {
+    if (axios.isAxiosError(e)) {
+      dispatch(todoRequestFailed(e.message));
     }
   }
 };
 
-export const clearData = () => (dispatch: AppDispatch) => {
-  dispatch(todoClear());
-};
+export const createTodo =
+  (payload: TCreateProps['payload'], setActive: TCreateProps['setActive']) => async (dispatch: AppDispatch) => {
+    dispatch(createTodoRequested());
+    try {
+      console.log(payload);
+      const response = await todoService.createTodo(payload);
+      dispatch(todoCreated(response.newTodo));
+      setActive(false);
+    } catch (e) {
+      console.log(e);
+      if (axios.isAxiosError(e)) {
+        dispatch(todoCreateFailed(e.message));
+      }
+    }
+  };
+
+export const clearData = () => (dispatch: AppDispatch) => dispatch(todoClear());
 
 export const getTodosLoadingStatus = () => (state: RootState) => state.todos.isLoading;
 export const getTodosList = () => (state: RootState) => state.todos.entities;

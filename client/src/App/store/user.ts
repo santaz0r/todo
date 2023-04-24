@@ -5,11 +5,20 @@ import authService from '../services/auth.service';
 import axios from 'axios';
 import { TAuthResponse } from '../types/AuthResponse';
 import { TAuthProps } from '../types/Form';
+import { TUser } from '../types/User.type';
 
-const initialState = {
+type TUserState = {
+  entities: null | [];
+  isLoading: boolean;
+  error: string;
+  user: TUser | null;
+  isLoggedIn: boolean;
+};
+
+const initialState: TUserState = {
   entities: null,
   isLoading: false,
-  error: null,
+  error: '',
   user: null,
   isLoggedIn: false,
 };
@@ -29,7 +38,7 @@ const userSlice = createSlice({
       state.isLoading = action.payload;
     },
     authRequested: (state) => {
-      state.error = null;
+      state.error = '';
     },
     authRequestFailed: (state, action) => {
       state.error = action.payload;
@@ -117,5 +126,6 @@ export const getIsLogin = () => (state: RootState) => state.user.isLoggedIn;
 export const getUserLoadingStatus = () => (state: RootState) => state.user.isLoading;
 
 export const getAuthErrors = () => (state: RootState) => state.user.error;
+export const getCurrentUserData = () => (state: RootState) => state.user.user;
 
 export default userReducer;

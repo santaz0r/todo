@@ -8,7 +8,7 @@ const TodoSchema = new Schema({
   //   priority: { type: String, required: true },
   //   status: { type: String, required: true },
   //   responsible: { type: Schema.Types.ObjectId, ref: "User" },
-  //   author: { type: Schema.Types.ObjectId, ref: "User" },
+  author: { type: Schema.Types.ObjectId, ref: "User" },
 });
 
 module.exports = model("Todo", TodoSchema);

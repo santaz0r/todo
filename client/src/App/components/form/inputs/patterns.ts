@@ -15,6 +15,14 @@ const Regexp: { [index: string]: { pattern: RegExp; message: string } } = {
     pattern: /./g,
     message: "Don't be empty",
   },
+  title: {
+    pattern: /./g,
+    message: "Don't be empty",
+  },
+  description: {
+    pattern: /./g,
+    message: "Don't be empty",
+  },
 };
 
 export default Regexp;
