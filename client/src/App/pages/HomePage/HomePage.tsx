@@ -42,7 +42,6 @@ function HomePage() {
       if (diff <= 7) return todo;
     }
     if (radio === 'today') {
-      console.log(diff);
       if (diff === 0) return todo;
     }
   });
