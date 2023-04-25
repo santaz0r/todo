@@ -37,7 +37,6 @@ function ChangeStatus({ data, setActive }: TProps) {
       ...data,
       status: payload.status,
     };
-    console.log(newPayload);
 
     dispatch(updateTodo(newPayload, setActive));
   });

@@ -6,9 +6,10 @@ type TProps<TFormValues extends FieldValues> = {
   options: { label: string; value: string }[];
   field: Path<TFormValues>;
   error: FieldErrors<TFormValues>;
-  register: UseFormRegister<TFormValues>;
+  register?: UseFormRegister<TFormValues>;
   disabledOption: boolean;
   defOpt?: string;
+  handleChange?: () => void;
 };
 
 function SelectField<TFormValues extends Record<string, unknown>>({
@@ -20,6 +21,7 @@ function SelectField<TFormValues extends Record<string, unknown>>({
   register,
   disabledOption,
   defOpt,
+  handleChange,
 }: TProps<TFormValues>) {
   return (
     <div>
@@ -29,8 +31,10 @@ function SelectField<TFormValues extends Record<string, unknown>>({
           <>
             <select
               id={field}
-              {...register(field, {
-                required: 'Your need to choose a priority',
+              {...(register && {
+                ...register(field, {
+                  required: 'Your need to choose a priority',
+                }),
               })}
               defaultValue={defOpt}
             >

@@ -107,7 +107,6 @@ export const signUp =
     const { email, password, ...rest } = payload;
     try {
       const response = await authService.signUp({ email, password, ...rest });
-      console.log(response);
       localStorage.setItem('token', response.accessToken);
       dispatch(authRequestSuccess(response.user));
       setActive(false);
@@ -140,7 +139,6 @@ export const checkAuth = () => async (dispatch: AppDispatch) => {
     const response = await axios.get<TAuthResponse>(`${configFile.apiEndpoint}/refreshToken`, {
       withCredentials: true,
     });
-    console.log(response);
     localStorage.setItem('token', response.data.accessToken);
     dispatch(authRequestSuccess(response.data.user));
   } catch (e) {
@@ -159,7 +157,7 @@ export const getUserLoadingStatus = () => (state: RootState) => state.user.isLoa
 export const getUsersListStatus = () => (state: RootState) => state.user.dataLoad;
 
 export const getAuthErrors = () => (state: RootState) => state.user.error;
-export const getCurrentUserData = () => (state: RootState) => state.user.user;
+export const getCurrentUserData = () => (state: RootState) => state.user?.user;
 export const getUsersList = () => (state: RootState) => state.user.entities;
 export const getManagersList = () => (state: RootState) => {
   if (state.user.entities) {

@@ -84,7 +84,6 @@ export const createTodo =
   (payload: TCreateProps['payload'], setActive: TCreateProps['setActive']) => async (dispatch: AppDispatch) => {
     dispatch(createTodoRequested());
     try {
-      console.log(payload);
       const response = await todoService.createTodo(payload);
       dispatch(todoCreated(response.newTodo));
       setActive(false);

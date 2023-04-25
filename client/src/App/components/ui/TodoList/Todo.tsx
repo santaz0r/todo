@@ -6,6 +6,8 @@ import ChangeStatus from '../../form/ChangeStatus';
 import UserInfo from '../userInfo/userInfo';
 import { useAppSelector } from '../../../../hooks';
 import { getCurrentUserData, getUserById, getUsersList } from '../../../store/user';
+import styles from './Todo.module.scss';
+import daysDiff from '../../../utils/daysDiff';
 
 type TProps = {
   todo: TTodo;
@@ -16,8 +18,16 @@ function Todo({ todo }: TProps) {
   const [currentModal, setCurrentModal] = useState<'descr' | 'status'>('descr');
 
   const currentUser = useAppSelector(getCurrentUserData());
-
   const users = useAppSelector(getUsersList());
+
+  const setClass = (deadline: string) => {
+    const today = new Date().toISOString().split('T')[0];
+    const end = new Date(deadline).toISOString().split('T')[0];
+    if (today > end) {
+      return styles.expired;
+    }
+    null;
+  };
 
   const handleClick = (type: 'descr' | 'status') => {
     setCurrentModal(type);
@@ -36,7 +46,7 @@ function Todo({ todo }: TProps) {
 
   return (
     <>
-      <h3>{todo.title}</h3>
+      <h3 className={todo.status !== 'Done' ? setClass(todo.deadline) : styles.done}>{todo.title}</h3>
       <div>{todo.description}</div>
       <div>Priority: {todo.priority}</div>
       <div>Status: {todo.status}</div>

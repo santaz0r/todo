@@ -36,7 +36,6 @@ function CreateTodoForm({ setActive }: TProps) {
   const currentUser = useAppSelector(getCurrentUserData());
 
   const myGroup = useAppSelector(getUsersGroup(currentUser!.id));
-  console.log(myGroup);
 
   const dispatch = useAppDispatch();
 
@@ -47,7 +46,7 @@ function CreateTodoForm({ setActive }: TProps) {
       ...payload,
       created: today,
       author: currentUser!.id,
-      responsible: payload.responsible,
+      responsible: payload.responsible || currentUser!.id,
       status: Status.fulfillment,
     };
 

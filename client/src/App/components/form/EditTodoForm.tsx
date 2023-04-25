@@ -44,8 +44,6 @@ function EditTodoForm({ data, setActive }: TProps) {
       responsible: data.responsible,
       status: data.status,
     };
-    console.log(newPayload);
-
     dispatch(updateTodo(newPayload, setActive));
   });
   return (
