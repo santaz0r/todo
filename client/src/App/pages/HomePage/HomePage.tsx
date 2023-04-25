@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useState } from 'react';
+import { useAppSelector } from '../../../hooks';
 import { getCurrentUserData, getIsLogin, getUsersGroup } from '../../store/user';
-import { getTodosList, getTodosLoadingStatus, loadTodosList } from '../../store/todos';
+import { getTodosList, getTodosLoadingStatus } from '../../store/todos';
 import TodoList from '../../components/ui/TodoList/TodoList';
 import Modal from '../../components/modal/Modal';
 import CreateTodoForm from '../../components/form/CreateTodoForm';

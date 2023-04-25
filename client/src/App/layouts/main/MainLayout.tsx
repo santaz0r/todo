@@ -1,7 +1,5 @@
 import { Outlet } from 'react-router-dom';
-
 import styles from './MainLayout.module.scss';
-
 import Footer from '../../components/ui/Footer/Footer';
 import Header from '../../components/ui/Header/Header';
 import { useEffect } from 'react';

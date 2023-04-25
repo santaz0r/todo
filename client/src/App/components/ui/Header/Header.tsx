@@ -6,7 +6,7 @@ import Modal from '../../modal/Modal';
 import LoginForm from '../../form/LoginForm';
 import RegisterForm from '../../form/RegistrationForm';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
-import { clearUsersData, getCurrentUserData, getIsLogin, logout } from '../../../store/user';
+import { getCurrentUserData, getIsLogin, logout } from '../../../store/user';
 import { clearData } from '../../../store/todos';
 
 function Header() {

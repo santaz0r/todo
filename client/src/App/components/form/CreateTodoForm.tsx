@@ -1,9 +1,8 @@
 import { useForm } from 'react-hook-form';
 import TextField from './inputs/TextField';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { getAuthErrors, getCurrentUserData, getUsersGroup, signUp } from '../../store/user';
+import { getCurrentUserData, getUsersGroup } from '../../store/user';
 import { createTodo } from '../../store/todos';
-import { TUser } from '../../types/User.type';
 import SelectField from './inputs/SelectField';
 import { Priority, Status } from '../../types/Enums';
 import transformData from '../../utils/dataTransform';

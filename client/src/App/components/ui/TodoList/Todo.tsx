@@ -7,7 +7,6 @@ import UserInfo from '../userInfo/userInfo';
 import { useAppSelector } from '../../../../hooks';
 import { getCurrentUserData, getUserById, getUsersList } from '../../../store/user';
 import styles from './Todo.module.scss';
-import daysDiff from '../../../utils/daysDiff';
 
 type TProps = {
   todo: TTodo;

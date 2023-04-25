@@ -9,7 +9,6 @@ type TProps<TFormValues extends FieldValues> = {
   register?: UseFormRegister<TFormValues>;
   disabledOption: boolean;
   defOpt?: string;
-  handleChange?: () => void;
 };
 
 function SelectField<TFormValues extends Record<string, unknown>>({
@@ -21,7 +20,6 @@ function SelectField<TFormValues extends Record<string, unknown>>({
   register,
   disabledOption,
   defOpt,
-  handleChange,
 }: TProps<TFormValues>) {
   return (
     <div>
