@@ -33,15 +33,17 @@ function HomePage() {
   });
 
   const plannedTodos = groupFilter.filter((todo) => {
+    const today = new Date().toISOString().split('T')[0];
+    const diff = daysDiff(today, todo.deadline);
     if (radio === 'all') {
       return todo;
     }
     if (radio === 'week') {
-      const diff = daysDiff(todo.created, todo.deadline);
       if (diff <= 7) return todo;
     }
     if (radio === 'today') {
-      if (todo.created === todo.deadline) return todo;
+      console.log(diff);
+      if (diff === 0) return todo;
     }
   });
 
