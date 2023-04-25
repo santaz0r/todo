@@ -32,9 +32,6 @@ function HomePage() {
     return todo.responsible === data.group;
   });
 
-  console.log(data);
-  console.log(groupFilter);
-
   const plannedTodos = groupFilter.filter((todo) => {
     if (radio === 'all') {
       return todo;
